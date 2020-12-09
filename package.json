@@ -17,13 +17,13 @@
     "prepublishOnly": "npm run compile"
   },
   "dependencies": {
-    "@friends-library/slack": "^1.0.0",
+    "@friends-library/slack": "^2.0.0",
     "node-fetch": "^2.6.0",
     "x-syntax": "^1.0.0"
   },
   "devDependencies": {
-    "@friends-library/dev": "^4.1.6",
-    "@friends-library/types": "^1.1.2",
+    "@friends-library/dev": "^4.1.14",
+    "@friends-library/types": "^3.0.0",
     "@types/node-fetch": "^2.5.7"
   }
 }

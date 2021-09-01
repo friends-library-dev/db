@@ -8,22 +8,26 @@
   "repository": "github:friends-library-dev/db",
   "license": "MIT",
   "scripts": {
+    "graphql:codegen": "npm run graphql:codegen:schema && npm run graphql:codegen:types && npm run graphql:codegen:cleanup",
     "test": "true",
     "lint": "fldev lint",
     "lint:fix": "fldev lint:fix",
     "ts:check": "fldev ts:check",
     "format": "fldev format",
     "compile": "fldev ts:compile",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "graphql:codegen:types": "rm -rf src/graphql && npx apollo client:codegen --outputFlat --passthroughCustomScalars --localSchemaFile=schema.graphql --target=typescript --tagName=gql src/graphql",
+    "graphql:codegen:cleanup": "node src/scripts/fix-timestamp-types.js && $(npm run format; npm run lint:fix) &> /dev/null; true",
+    "graphql:codegen:schema": "apollo client:download-schema --endpoint=http://127.0.0.1:8080/graphql ./schema.graphql"
   },
   "dependencies": {
-    "@friends-library/slack": "^2.0.1",
-    "node-fetch": "^2.6.0",
-    "x-syntax": "^1.0.0"
+    "@apollo/client": "^3.4.10",
+    "cross-fetch": "^3.1.4",
+    "x-ts-utils": "^1.2.0"
   },
   "devDependencies": {
-    "@friends-library/dev": "~4.3.1",
-    "@friends-library/types": "^5.0.3",
-    "@types/node-fetch": "^2.5.7"
+    "@friends-library/dev": "~4.4.1",
+    "@friends-library/types": "^6.0.0",
+    "glob": "^7.1.7"
   }
 }

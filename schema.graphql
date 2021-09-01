@@ -1,0 +1,189 @@
+enum AudioQuality {
+  lq
+  hq
+}
+
+input CreateDownloadInput {
+  audioPartNumber: Int
+  audioQuality: AudioQuality
+  browser: String
+  city: String
+  country: String
+  documentId: UUID!
+  editionType: EditionType!
+  format: Format!
+  ip: String
+  isMobile: Boolean!
+  latitude: String
+  longitude: String
+  os: String
+  platform: String
+  postalCode: String
+  referrer: String
+  region: String
+  source: DownloadSource!
+  userAgent: String
+}
+
+input CreateOrderInput {
+  addressCity: String!
+  addressCountry: String!
+  addressName: String!
+  addressState: String!
+  addressStreet: String!
+  addressStreet2: String
+  addressZip: String!
+  amount: Int!
+  ccFeeOffset: Int!
+  email: String!
+  id: UUID
+  items: [Item!]!
+  lang: Lang!
+  paymentId: String!
+  printJobId: Int
+  printJobStatus: PrintJobStatus!
+  shipping: Int!
+  shippingLevel: ShippingLevel!
+  source: OrderSource!
+  taxes: Int!
+}
+
+scalar Date
+
+type Download {
+  audioPartNumber: Int
+  audioQuality: AudioQuality
+  browser: String
+  city: String
+  country: String
+  documentId: UUID!
+  editionType: EditionType!
+  format: Format!
+  id: UUID
+  ip: String
+  isMobile: Boolean!
+  latitude: String
+  longitude: String
+  os: String
+  platform: String
+  postalCode: String
+  referrer: String
+  region: String
+  source: DownloadSource!
+  userAgent: String
+}
+
+enum DownloadSource {
+  website
+  podcast
+  app
+}
+
+enum EditionType {
+  modernized
+  updated
+  original
+}
+
+enum Format {
+  mobi
+  mp3Zip
+  mp3
+  epub
+  speech
+  m4b
+  webPdf
+  podcast
+  appEbook
+}
+
+input Item {
+  documentId: UUID!
+  editionType: EditionType!
+  quantity: Int!
+  title: String!
+  unitPrice: Int!
+}
+
+enum Lang {
+  es
+  en
+}
+
+type Mutation {
+  createDownload(input: CreateDownloadInput!): Download!
+  createOrder(input: CreateOrderInput!): Order!
+  updateOrder(input: UpdateOrderInput!): Order!
+  updateOrders(input: [UpdateOrderInput!]!): [Order!]!
+}
+
+type Order {
+  addressCity: String!
+  addressCountry: String!
+  addressName: String!
+  addressState: String!
+  addressStreet: String!
+  addressStreet2: String
+  addressZip: String!
+  amount: Int!
+  ccFeeOffset: Int!
+  createdAt: Date
+  email: String!
+  id: UUID
+  items: [OrderItem!]!
+  lang: Lang!
+  paymentId: String!
+  printJobId: Int
+  printJobStatus: PrintJobStatus!
+  shipping: Int!
+  shippingLevel: ShippingLevel!
+  source: OrderSource!
+  taxes: Int!
+  updatedAt: Date
+}
+
+type OrderItem {
+  documentId: UUID!
+  editionType: EditionType!
+  order: Order!
+  quantity: Int!
+  title: String!
+  unitPrice: Int!
+}
+
+enum OrderSource {
+  internal
+  website
+}
+
+enum PrintJobStatus {
+  shipped
+  canceled
+  rejected
+  presubmit
+  pending
+  accepted
+  bricked
+}
+
+type Query {
+  getOrder(id: UUID!): Order!
+  getOrders(printJobStatus: PrintJobStatus): [Order!]!
+}
+
+enum ShippingLevel {
+  priorityMail
+  expedited
+  express
+  mail
+  groundHd
+  ground
+}
+
+scalar UUID
+
+input UpdateOrderInput {
+  id: UUID!
+  printJobId: Int
+  printJobStatus: PrintJobStatus
+}

@@ -47,7 +47,14 @@ export default class Orders {
     }
   }
 
+  /**
+   * @deprecated use `update()` instead
+   */
   public async save(input: UpdateOrderInput): Promise<Result<{ id: Uuid }>> {
+    return this.update(input);
+  }
+
+  public async update(input: UpdateOrderInput): Promise<Result<{ id: Uuid }>> {
     try {
       const variables: UpdateOrderVariables = { input: mapUpdateOrderInput(input) };
       const { data } = await this.client.apollo.mutate<UpdateOrder>({
@@ -68,7 +75,16 @@ export default class Orders {
     }
   }
 
-  public async saveAll(input: UpdateOrderInput[]): Promise<Result<Array<{ id: Uuid }>>> {
+  /**
+   * @deprecated use `updateAll()` instead
+   */
+  public async savAll(input: UpdateOrderInput[]): Promise<Result<Array<{ id: Uuid }>>> {
+    return this.updateAll(input);
+  }
+
+  public async updateAll(
+    input: UpdateOrderInput[],
+  ): Promise<Result<Array<{ id: Uuid }>>> {
     try {
       const variables: UpdateOrdersVariables = { input: input.map(mapUpdateOrderInput) };
       const { data } = await this.client.apollo.mutate<UpdateOrders>({

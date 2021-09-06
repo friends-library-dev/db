@@ -68,7 +68,7 @@ export default class Orders {
 
       return {
         success: true,
-        value: { id: data.order.id },
+        value: { id: data.order.id.toLowerCase() },
       };
     } catch (error: unknown) {
       return failure(error);
@@ -103,7 +103,7 @@ export default class Orders {
             throw new Error(`Unexpected missing order id`);
           }
           return {
-            id: order.id,
+            id: order.id.toLowerCase(),
           };
         }),
       };
@@ -155,7 +155,7 @@ export default class Orders {
 
       return {
         success: true,
-        value: { id: data.order.id },
+        value: { id: data.order.id.toLowerCase() },
       };
     } catch (error: unknown) {
       return failure(error);
@@ -278,7 +278,7 @@ function mapOrder(order: GetOrder_order): Order {
     throw new Error(`Unexpected missing order.updatedAt`);
   }
   return {
-    id: order.id,
+    id: order.id.toLowerCase(),
     lang: convert.toFLP.lang(order.lang),
     paymentId: order.paymentId,
     amount: order.amount,
@@ -294,7 +294,7 @@ function mapOrder(order: GetOrder_order): Order {
     source: convert.toFLP.orderSource(order.source),
     items: order.items.map((item) => ({
       title: item.title,
-      documentId: item.documentId,
+      documentId: item.documentId.toLowerCase(),
       editionType: item.editionType,
       quantity: item.quantity,
       unitPrice: item.unitPrice,

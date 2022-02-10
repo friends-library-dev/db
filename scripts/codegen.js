@@ -13,22 +13,32 @@ if (convertDates) {
   numSteps += 1;
 }
 
+let success = true;
+
 log(c`{gray ${step++}/${numSteps}} {magenta Downloading schema...}`);
-exec.exit(
+success = exec.out(
   `apollo client:download-schema --endpoint=http://127.0.0.1:8080/graphql ./schema.graphql`,
   process.cwd(),
 );
 
+if (!success) {
+  process.exit(1);
+}
+
 log(c`{gray ${step++}/${numSteps}} {magenta Downloading types...}`);
-exec.exit(
+success = exec.out(
   `rm -rf src/graphql && npx apollo client:codegen --outputFlat --passthroughCustomScalars --localSchemaFile=schema.graphql --target=typescript --tagName=gql src/graphql`,
   process.cwd(),
 );
 
+if (!success) {
+  process.exit(1);
+}
+
 log(c`{gray ${step++}/${numSteps}} {magenta Cleaning up...}`);
-exec.success(`rm -f schema.graphql`, process.cwd());
-exec.success(`npm run format`, process.cwd());
-exec.success(`npm run lint:fix`, process.cwd());
+exec.exit(`rm -f schema.graphql`, process.cwd());
+exec.exit(`npm run format`, process.cwd());
+exec.exit(`npm run lint:fix`, process.cwd());
 
 if (convertDates) {
   log(c`{gray ${step++}/${numSteps}} {magenta Converting dates to string...}`);

@@ -1,6 +1,3 @@
-import fetch from 'cross-fetch';
-import Orders from './Orders';
-import Downloads from './Downloads';
 import {
   ApolloClient,
   InMemoryCache,
@@ -10,28 +7,49 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-export default class Client {
-  public orders: Orders;
-  public downloads: Downloads;
-  public apollo: ApolloClient<NormalizedCacheObject>;
+type UriOptions =
+  | { env: `dev` }
+  | { env: `staging` }
+  | { env: `production` }
+  | { env: `custom`; uri: string };
 
-  public constructor(endpoint: string, token: string) {
-    this.orders = new Orders(this);
-    this.downloads = new Downloads(this);
+type ClientOptions = UriOptions & {
+  token?: string;
+  fetch?: WindowOrWorkerGlobalScope['fetch'];
+};
 
-    const httpLink = createHttpLink({ uri: endpoint, fetch });
-    const authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${token}`,
-        },
-      };
-    });
-
-    this.apollo = new ApolloClient({
-      link: from([authLink, httpLink]),
-      cache: new InMemoryCache(),
-    });
+export function getClient(
+  options: ClientOptions = { env: `dev` },
+): ApolloClient<NormalizedCacheObject> {
+  let uri: string;
+  switch (options.env) {
+    case `dev`:
+      uri = `http://localhost:8080`;
+      break;
+    case `staging`:
+      uri = `https://api--staging.friendslibrary.com`;
+      break;
+    case `production`:
+      uri = `https://api.friendslibrary.com`;
+      break;
+    case `custom`:
+      uri = options.uri;
+      break;
   }
+
+  const httpLink = createHttpLink({ uri });
+
+  const authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
+      },
+    };
+  });
+
+  return new ApolloClient({
+    link: from([authLink, httpLink]),
+    cache: new InMemoryCache(),
+  });
 }

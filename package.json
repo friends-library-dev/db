@@ -1,6 +1,6 @@
 {
   "name": "@friends-library/db",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.4",
   "description": "db stuff",
   "main": "./dist/index.js",
   "browser": false,

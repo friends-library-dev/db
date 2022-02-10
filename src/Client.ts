@@ -37,7 +37,7 @@ export function getClient(
       break;
   }
 
-  const httpLink = createHttpLink({ uri });
+  const httpLink = createHttpLink({ uri, fetch: options.fetch });
 
   const authLink = setContext((_, { headers }) => {
     return {

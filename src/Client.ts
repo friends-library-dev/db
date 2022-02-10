@@ -14,7 +14,7 @@ type UriOptions =
   | { env: `custom`; uri: string };
 
 type ClientOptions = UriOptions & {
-  token?: string;
+  token?: string | null;
   fetch?: WindowOrWorkerGlobalScope['fetch'];
 };
 
@@ -24,13 +24,13 @@ export function getClient(
   let uri: string;
   switch (options.env) {
     case `dev`:
-      uri = `http://localhost:8080`;
+      uri = `http://localhost:8080/graphql`;
       break;
     case `staging`:
-      uri = `https://api--staging.friendslibrary.com`;
+      uri = `https://api--staging.friendslibrary.com/graphql`;
       break;
     case `production`:
-      uri = `https://api.friendslibrary.com`;
+      uri = `https://api.friendslibrary.com/graphql`;
       break;
     case `custom`:
       uri = options.uri;

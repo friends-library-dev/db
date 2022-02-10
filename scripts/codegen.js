@@ -26,8 +26,9 @@ if (!success) {
 }
 
 log(c`{gray ${step++}/${numSteps}} {magenta Downloading types...}`);
+exec.exit(`rm -rf src/graphql`, process.cwd());
 success = exec.out(
-  `rm -rf src/graphql && npx apollo client:codegen --outputFlat --passthroughCustomScalars --localSchemaFile=schema.graphql --target=typescript --tagName=gql src/graphql`,
+  `npx apollo client:codegen --outputFlat --passthroughCustomScalars --localSchemaFile=schema.graphql --target=typescript --tagName=gql src/graphql`,
   process.cwd(),
 );
 

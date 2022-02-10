@@ -1,6 +1,6 @@
 {
   "name": "@friends-library/db",
-  "version": "2.1.4",
+  "version": "3.0.0-beta.0",
   "description": "db stuff",
   "main": "./dist/index.js",
   "browser": false,
@@ -8,7 +8,7 @@
   "repository": "github:friends-library-dev/db",
   "license": "MIT",
   "bin": {
-    "flp_gql_codegen": "./scripts/codegen"
+    "flp_gql_codegen": "./scripts/codegen.js"
   },
   "scripts": {
     "test": "true",

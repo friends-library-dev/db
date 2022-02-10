@@ -22,6 +22,7 @@ success = exec.out(
 );
 
 if (!success) {
+  log(``);
   process.exit(1);
 }
 
@@ -33,6 +34,7 @@ success = exec.out(
 );
 
 if (!success) {
+  log(``);
   process.exit(1);
 }
 
@@ -46,7 +48,7 @@ if (convertDates) {
   convertDatesToString();
 }
 
-green(`Codegen complete!\n`);
+green(`\nCodegen complete!\n`);
 process.exit(0);
 
 function convertDatesToString() {

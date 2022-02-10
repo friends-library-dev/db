@@ -22,8 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.10",
-    "graphql": "^15.5.2",
-    "x-syntax": "^1.0.0"
+    "graphql": "^15.5.2"
   },
   "devDependencies": {
     "@friends-library/dev": "~4.4.1",

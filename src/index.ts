@@ -1,2 +1,2 @@
-export { default as gql } from 'x-syntax';
+export { gql } from '@apollo/client';
 export { getClient } from './client';

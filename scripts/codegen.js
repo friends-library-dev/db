@@ -36,9 +36,9 @@ if (!success) {
 }
 
 log(c`{gray ${step++}/${numSteps}} {magenta Cleaning up...}`);
-exec.exit(`rm -f schema.graphql`, process.cwd());
-exec.exit(`npm run format`, process.cwd());
-exec.exit(`npm run lint:fix`, process.cwd());
+exec(`rm -f schema.graphql`, process.cwd());
+exec(`npm run format`, process.cwd());
+exec(`npm run lint:fix`, process.cwd());
 
 if (convertDates) {
   log(c`{gray ${step++}/${numSteps}} {magenta Converting dates to string...}`);

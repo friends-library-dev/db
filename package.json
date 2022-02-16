@@ -28,6 +28,7 @@
   "devDependencies": {
     "@friends-library/dev": "~4.4.1",
     "@friends-library/types": "^6.0.0",
+    "@types/react": "^17.0.39",
     "glob": "^7.2.0",
     "x-chalk": "^1.0.1",
     "x-exec": "^1.2.0"

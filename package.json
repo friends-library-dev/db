@@ -8,7 +8,7 @@
   "repository": "github:friends-library-dev/db",
   "license": "MIT",
   "bin": {
-    "flp_gql_codegen": "./scripts/codegen.js"
+    "flp-gql-codegen": "./scripts/codegen.js"
   },
   "scripts": {
     "test": "true",

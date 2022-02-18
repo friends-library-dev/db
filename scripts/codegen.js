@@ -40,8 +40,8 @@ if (!success) {
 
 log(c`{gray ${step++}/${numSteps}} {magenta Cleaning up...}`);
 exec(`rm -f schema.graphql`, process.cwd());
-exec(`npm run format`, process.cwd());
-exec(`npm run lint:fix`, process.cwd());
+exec(`npx fldev format`, `${process.cwd()}/src/graphql`);
+exec(`npx fldev lint -- --fix`, `${process.cwd()}/src/graphql`);
 
 if (convertDates) {
   log(c`{gray ${step++}/${numSteps}} {magenta Converting dates to string...}`);

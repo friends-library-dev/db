@@ -65,8 +65,8 @@ function convertDatesToString() {
     fs.writeFileSync(
       file,
       content.replace(
-        /(created|updated|deleted)At: Date \| null;/gm,
-        `$1At: string | null`,
+        /(created|updated|deleted)At: Date( \| null)?;/gm,
+        `$1At: string$2;`,
       ),
     );
   }

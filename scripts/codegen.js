@@ -62,12 +62,6 @@ function convertDatesToString() {
 
   for (const file of files) {
     const content = fs.readFileSync(file, `utf-8`);
-    fs.writeFileSync(
-      file,
-      content.replace(
-        /(created|updated|deleted)At: Date( \| null)?;/gm,
-        `$1At: string$2;`,
-      ),
-    );
+    fs.writeFileSync(file, content.replace(/: Date( \| null)?;/gm, `: string$2;`));
   }
 }

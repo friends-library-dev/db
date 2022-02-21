@@ -1,2 +1,2 @@
 export { gql } from '@apollo/client';
-export { getClient, TokenInput, ClientOptions, ClientType } from './Client';
+export { getClient, ClientConfig, ClientType } from './Client';

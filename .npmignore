@@ -2,3 +2,4 @@
 tsconfig.tsbuildinfo
 jest.config.js
 **/__tests__/*
+scripts/

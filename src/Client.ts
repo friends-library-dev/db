@@ -23,13 +23,15 @@ export type ClientOptions = Mode & {
   path?: string;
 };
 
+export type ClientType = ApolloClient<NormalizedCacheObject>;
+
 export function getClient(
   options: ClientOptions = { mode: `dev` },
 ): ApolloClient<NormalizedCacheObject> {
   let url: string;
   switch (options.mode) {
     case `dev`:
-      url = `http://localhost:${options.port ?? 8080}/${options.path ?? `graphql`}`;
+      url = `http://127.0.0.1:${options.port ?? 8080}/${options.path ?? `graphql`}`;
       break;
     case `staging`:
       url = `https://api--staging.friendslibrary.com/${options.path ?? `graphql`}`;

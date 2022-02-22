@@ -6,16 +6,18 @@ import {
   from,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { inferNode, inferWeb } from './infer';
 
 type Env =
   | {
-      env: `infer`;
+      env: `infer_node`;
       pattern?: string;
       process: {
         argv: string[];
         env: Record<string, string | undefined>;
       };
     }
+  | { env: `infer_web`; href: string; token?: string }
   | { env: `dev`; port?: number; token?: string }
   | { env: `staging`; token?: string }
   | { env: `production`; token?: string }
@@ -34,6 +36,10 @@ export function getClient(
   let url: string;
   let token: string | undefined;
   switch (options.env) {
+    case `infer_web`:
+      return inferWeb(options.href, options.token, options.path);
+    case `infer_node`:
+      return inferNode(options.process, options.pattern, options.fetch, options.path);
     case `dev`:
       url = `http://127.0.0.1:${options.port ?? 8080}/${options.path ?? `graphql`}`;
       token = options.token;
@@ -50,8 +56,6 @@ export function getClient(
       url = options.endpoint;
       token = options.token;
       break;
-    case `infer`:
-      return inferClient(options.process, options.pattern, options.fetch);
   }
 
   const httpLink = createHttpLink({ uri: url, fetch: options.fetch });
@@ -68,45 +72,4 @@ export function getClient(
     link: from([authLink, httpLink]),
     cache: new InMemoryCache(),
   });
-}
-
-function inferClient(
-  process: { argv: string[]; env: Record<string, string | undefined> },
-  pattern?: string,
-  fetch?: WindowOrWorkerGlobalScope['fetch'],
-): ClientType {
-  let token: string;
-  let env: ClientConfig['env'];
-  if (process.argv.includes(`--api-staging`)) {
-    env = `staging`;
-  } else if (process.argv.includes(`--api-dev`)) {
-    env = `dev`;
-  } else {
-    env = `production`;
-  }
-
-  // `DEV` | `STAGING` | `PROD`
-  const modeSegment = env.toUpperCase().replace(`UCTION`, ``);
-  const placeholder = `{{env}}`;
-
-  if (!pattern) {
-    token = requireEnvVar(`FLP_API_TOKEN_${modeSegment}`, process.env);
-  } else if (!pattern.includes(placeholder)) {
-    throw new Error(`Token input pattern must include \`${placeholder}\``);
-  } else {
-    const key = pattern.replace(placeholder, modeSegment);
-    token = requireEnvVar(key, process.env);
-  }
-
-  return getClient({ env, token, fetch });
-}
-
-function requireEnvVar(key: string, env: Record<string, string | undefined>): string {
-  const value = env[key];
-  if (!value) {
-    throw new Error(
-      `Missing required environment var: \`${key}\` for inferring db client config`,
-    );
-  }
-  return value;
 }

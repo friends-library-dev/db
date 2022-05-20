@@ -15,9 +15,15 @@ if (convertDates) {
 
 let success = true;
 
+let endpoint = `http://127.0.0.1:8080/graphql`;
+const endpointIndex = process.argv.indexOf(`--endpoint`);
+if (endpointIndex !== -1) {
+  endpoint = process.argv[endpointIndex + 1];
+}
+
 log(c`{gray ${step++}/${numSteps}} {magenta Downloading schema...}`);
 success = exec.out(
-  `apollo client:download-schema --endpoint=http://127.0.0.1:8080/graphql ./schema.graphql`,
+  `apollo client:download-schema --endpoint=${endpoint} ./schema.graphql`,
   process.cwd(),
 );
 
